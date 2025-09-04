@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="wishlist.xsl"?>
+<bookstore>
+  <book category="fiction">
+    <title lang="en">The Great Gatsby</title>
+    <author>F. Scott Fitzgerald</author>
+    <year>1925</year>
+    <price>25.00</price>
+  </book>
+
+  <book category="science">
+    <title lang="en">A Brief History of Time</title>
+    <author>Stephen Hawking</author>
+    <year>1988</year>
+    <price>19.99</price>
+  </book>
+
+  <book category="history">
+    <title lang="en">The Guns of August</title>
+    <author>Barbara W. Tuchman</author>
+    <year>1962</year>
+    <price>34.99</price>
+  </book>
+
+  <book category="cooking" cover="hardcover">
+    <title lang="en">Mastering the Art of French Cooking</title>
+    <author>Julia Child</author>
+    <author>Louisette Bertholle</author>
+    <author>Simone Beck</author>
+    <year>1961</year>
+    <price>45.00</price>
+  </book>
+</bookstore>

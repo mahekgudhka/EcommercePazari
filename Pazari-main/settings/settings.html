@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Pazari</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .settings-container {
+      padding-top: 100px;
+      min-height: 100vh;
+      background: #f8f9fa;
+    }
+    
+    .settings-header {
+      background: white;
+      padding: 30px 0;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .settings-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .settings-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .settings-card h4 {
+      color: #333;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #e9ecef;
+    }
+    
+    .form-floating {
+      margin-bottom: 20px;
+    }
+    
+    .form-control {
+      border-radius: 10px;
+      border: 2px solid #e9ecef;
+      padding: 15px;
+      height: auto;
+    }
+    
+    .form-control:focus {
+      border-color: #004e4d;
+      box-shadow: 0 0 0 0.2rem rgba(0,78,77,0.25);
+    }
+    
+    .btn-save {
+      background: linear-gradient(135deg, #004e4d 0%, #006666 100%);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-save:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      color: white;
+    }
+    
+    .btn-save:disabled {
+      opacity: 0.6;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      color: white;
+    }
+    
+    .profile-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 4px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+    
+    .profile-avatar:hover {
+      border-color: #004e4d;
+      transform: scale(1.05);
+    }
+    
+    .profile-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .profile-email {
+      color: #6c757d;
+      margin-bottom: 20px;
+    }
+    
+    .upload-avatar {
+      background: #f8f9fa;
+      border: 2px dashed #dee2e6;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .upload-avatar:hover {
+      border-color: #004e4d;
+      background: #e9ecef;
+    }
+    
+    .upload-avatar input[type="file"] {
+      display: none;
+    }
+    
+    .notification-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+    
+    .form-switch {
+      padding-left: 2.5em;
+    }
+    
+    .form-check-input:checked {
+      background-color: #004e4d;
+      border-color: #004e4d;
+    }
+    
+    .danger-zone {
+      border: 2px solid #dc3545;
+      border-radius: 15px;
+      padding: 25px;
+      background: #fff5f5;
+    }
+    
+    .danger-zone h4 {
+      color: #dc3545;
+      border-bottom-color: #dc3545;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .settings-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../image/WhatsApp_Image_2023-07-10_at_00.13.41-removebg-preview.png" alt="Pazari" height="40">
+        <span class="ms-2">Pazari</span>
+      </a>
+      
+      <div class="navbar-nav mx-auto">
+        <div class="search-container">
+          <input type="search" class="form-control" placeholder="Search for products..." id="searchInput">
+          <button class="btn btn-outline-light ms-2" onclick="searchProducts()">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="navbar-nav">
+        <a class="nav-link" href="../wishlist.html">
+          <i class="fas fa-heart"></i> Wishlist
+          <span class="badge bg-danger" id="wishlistCount">0</span>
+        </a>
+        <a class="nav-link" href="../cart.html">
+          <i class="fas fa-shopping-cart"></i> Cart
+          <span class="badge bg-primary" id="cartCount">0</span>
+        </a>
+        <a class="nav-link" href="../login/login.html" id="loginLink">
+          <i class="fas fa-user"></i> Login
+        </a>
+        <a class="nav-link active" href="../settings/settings.html" id="settingsLink">
+          <i class="fas fa-cog"></i> Settings
+        </a>
+        <a class="nav-link d-none" href="#" id="logoutLink" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="settings-container">
+    <div class="container">
+      <!-- Settings Header -->
+      <div class="settings-header text-center">
+        <h1 class="mb-3">
+          <i class="fas fa-cog me-3"></i>Account Settings
+        </h1>
+        <p class="text-muted mb-0">Manage your account preferences and settings</p>
+      </div>
+
+      <!-- User Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="totalOrders">0</div>
+          <div class="stat-label">Total Orders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="wishlistItems">0</div>
+          <div class="stat-label">Wishlist Items</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="cartItems">0</div>
+          <div class="stat-label">Cart Items</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="memberSince">2024</div>
+          <div class="stat-label">Member Since</div>
+        </div>
+      </div>
+
+      <!-- Profile Settings -->
+      <div class="settings-card">
+        <h4>
+          <i class="fas fa-user me-2"></i>Profile Information
+        </h4>
+        
+        <div class="profile-section">
+          <img src="../image/PAZARI (3).png" alt="Profile Avatar" class="profile-avatar" id="profileAvatar">
+          <div class="profile-name" id="profileName">Demo User</div>
+          <div class="profile-email" id="profileEmail">demo@pazari.com</div>
+          
+          <div class="upload-avatar" onclick="document.getElementById('avatarInput').click()">
+            <i class="fas fa-camera fa-2x mb-2"></i>
+            <p class="mb-0">Click to upload new avatar</p>
+            <input type="file" id="avatarInput" accept="image/*" onchange="handleAvatarUpload(event)">
+          </div>
+        </div>
+        
+        <form id="profileForm" onsubmit="saveProfile(event)">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
+                <label for="firstName">First Name</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
+                <label for="lastName">Last Name</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-floating">
+            <input type="email" class="form-control" id="email" placeholder="Email address" required>
+            <label for="email">Email address</label>
+          </div>
+          
+          <div class="form-floating">
+            <input type="tel" class="form-control" id="phone" placeholder="Phone number">
+            <label for="phone">Phone number</label>
+          </div>
+          
+          <div class="form-floating">
+            <input type="text" class="form-control" id="address" placeholder="Address">
+            <label for="address">Address</label>
+          </div>
+          
+          <button type="submit" class="btn btn-save">
+            <i class="fas fa-save me-2"></i>Save Changes
+          </button>
+        </form>
+      </div>
+
+      <!-- Security Settings -->
+      <div class="settings-card">
+        <h4>
+          <i class="fas fa-shield-alt me-2"></i>Security Settings
+        </h4>
+        
+        <form id="passwordForm" onsubmit="changePassword(event)">
+          <div class="form-floating">
+            <input type="password" class="form-control" id="currentPassword" placeholder="Current Password" required>
+            <label for="currentPassword">Current Password</label>
+          </div>
+          
+          <div class="form-floating">
+            <input type="password" class="form-control" id="newPassword" placeholder="New Password" required>
+            <label for="newPassword">New Password</label>
+          </div>
+          
+          <div class="form-floating">
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm New Password" required>
+            <label for="confirmPassword">Confirm New Password</label>
+          </div>
+          
+          <button type="submit" class="btn btn-save">
+            <i class="fas fa-key me-2"></i>Change Password
+          </button>
+        </form>
+      </div>
+
+      <!-- Notification Settings -->
+      <div class="settings-card">
+        <h4>
+          <i class="fas fa-bell me-2"></i>Notification Preferences
+        </h4>
+        
+        <div class="notification-item">
+          <div>
+            <h6 class="mb-1">Order Updates</h6>
+            <small class="text-muted">Get notified about order status changes</small>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="orderNotifications" checked>
+          </div>
+        </div>
+        
+        <div class="notification-item">
+          <div>
+            <h6 class="mb-1">Promotional Emails</h6>
+            <small class="text-muted">Receive offers and discounts</small>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="promotionalEmails" checked>
+          </div>
+        </div>
+        
+        <div class="notification-item">
+          <div>
+            <h6 class="mb-1">Wishlist Alerts</h6>
+            <small class="text-muted">Get notified when wishlist items go on sale</small>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="wishlistAlerts">
+          </div>
+        </div>
+        
+        <div class="notification-item">
+          <div>
+            <h6 class="mb-1">Newsletter</h6>
+            <small class="text-muted">Weekly newsletter with latest products</small>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="newsletter">
+          </div>
+        </div>
+        
+        <button class="btn btn-save" onclick="saveNotificationSettings()">
+          <i class="fas fa-save me-2"></i>Save Preferences
+        </button>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="settings-card danger-zone">
+        <h4>
+          <i class="fas fa-exclamation-triangle me-2"></i>Danger Zone
+        </h4>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <h6>Delete Account</h6>
+            <p class="text-muted">Permanently delete your account and all data</p>
+            <button class="btn btn-danger" onclick="deleteAccount()">
+              <i class="fas fa-trash me-2"></i>Delete Account
+            </button>
+          </div>
+          <div class="col-md-6">
+            <h6>Clear All Data</h6>
+            <p class="text-muted">Remove all your personal data and preferences</p>
+            <button class="btn btn-danger" onclick="clearAllData()">
+              <i class="fas fa-eraser me-2"></i>Clear Data
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    let currentUser = null;
+    
+    // Initialize settings page
+    document.addEventListener('DOMContentLoaded', function() {
+      checkAuthentication();
+      loadUserData();
+      loadStats();
+      loadNotificationSettings();
+    });
+    
+    function checkAuthentication() {
+      const userData = localStorage.getItem('pazariUser');
+      if (!userData) {
+        window.location.href = '../login/login.html';
+        return;
+      }
+      
+      currentUser = JSON.parse(userData);
+      if (!currentUser.isLoggedIn) {
+        window.location.href = '../login/login.html';
+        return;
+      }
+      
+      updateNavigation();
+    }
+    
+    function loadUserData() {
+      if (!currentUser) return;
+      
+      // Load user data from localStorage or use defaults
+      const userProfile = localStorage.getItem('pazariUserProfile') || {};
+      
+      document.getElementById('firstName').value = userProfile.firstName || 'Demo';
+      document.getElementById('lastName').value = userProfile.lastName || 'User';
+      document.getElementById('email').value = currentUser.email || 'demo@pazari.com';
+      document.getElementById('phone').value = userProfile.phone || '';
+      document.getElementById('address').value = userProfile.address || '';
+      
+      document.getElementById('profileName').textContent = `${userProfile.firstName || 'Demo'} ${userProfile.lastName || 'User'}`;
+      document.getElementById('profileEmail').textContent = currentUser.email || 'demo@pazari.com';
+    }
+    
+    function loadStats() {
+      // Load cart count
+      const cartData = localStorage.getItem('pazariCart') || '[]';
+      const cart = JSON.parse(cartData);
+      const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartItems').textContent = cartCount;
+      
+      // Load wishlist count
+      const wishlistData = localStorage.getItem('pazariWishlist') || '[]';
+      const wishlist = JSON.parse(wishlistData);
+      document.getElementById('wishlistItems').textContent = wishlist.length;
+      
+      // Simulate other stats
+      document.getElementById('totalOrders').textContent = Math.floor(Math.random() * 20) + 1;
+      document.getElementById('memberSince').textContent = '2024';
+    }
+    
+    function loadNotificationSettings() {
+      const settings = localStorage.getItem('pazariNotificationSettings') || '{}';
+      const notificationSettings = JSON.parse(settings);
+      
+      document.getElementById('orderNotifications').checked = notificationSettings.orderNotifications !== false;
+      document.getElementById('promotionalEmails').checked = notificationSettings.promotionalEmails !== false;
+      document.getElementById('wishlistAlerts').checked = notificationSettings.wishlistAlerts || false;
+      document.getElementById('newsletter').checked = notificationSettings.newsletter !== false;
+    }
+    
+    function saveProfile(event) {
+      event.preventDefault();
+      
+      const profileData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value
+      };
+      
+      localStorage.setItem('pazariUserProfile', JSON.stringify(profileData));
+      
+      document.getElementById('profileName').textContent = `${profileData.firstName} ${profileData.lastName}`;
+      
+      showToast('Profile updated successfully!', 'success');
+    }
+    
+    function changePassword(event) {
+      event.preventDefault();
+      
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      if (newPassword !== confirmPassword) {
+        showToast('New passwords do not match!', 'error');
+        return;
+      }
+      
+      if (newPassword.length < 8) {
+        showToast('Password must be at least 8 characters long!', 'error');
+        return;
+      }
+      
+      // In real app, this would validate current password and update
+      showToast('Password changed successfully!', 'success');
+      
+      // Clear form
+      event.target.reset();
+    }
+    
+    function saveNotificationSettings() {
+      const settings = {
+        orderNotifications: document.getElementById('orderNotifications').checked,
+        promotionalEmails: document.getElementById('promotionalEmails').checked,
+        wishlistAlerts: document.getElementById('wishlistAlerts').checked,
+        newsletter: document.getElementById('newsletter').checked
+      };
+      
+      localStorage.setItem('pazariNotificationSettings', JSON.stringify(settings));
+      showToast('Notification preferences saved!', 'success');
+    }
+    
+    function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      if (!file.type.startsWith('image/')) {
+        showToast('Please select an image file!', 'error');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('profileAvatar').src = e.target.result;
+        showToast('Avatar updated successfully!', 'success');
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    function deleteAccount() {
+      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        // Clear all data
+        localStorage.clear();
+        showToast('Account deleted successfully!', 'success');
+        
+        setTimeout(() => {
+          window.location.href = '../index.html';
+        }, 2000);
+      }
+    }
+    
+    function clearAllData() {
+      if (confirm('Are you sure you want to clear all your data? This action cannot be undone.')) {
+        // Clear user data but keep account
+        localStorage.removeItem('pazariCart');
+        localStorage.removeItem('pazariWishlist');
+        localStorage.removeItem('pazariUserProfile');
+        localStorage.removeItem('pazariNotificationSettings');
+        
+        showToast('All data cleared successfully!', 'success');
+        
+        // Reload stats
+        loadStats();
+      }
+    }
+    
+    function searchProducts() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      if (!searchTerm.trim()) return;
+      
+      // Redirect to home page with search
+      window.location.href = `../index.html?search=${encodeURIComponent(searchTerm)}`;
+    }
+    
+    function showToast(message, type = 'info') {
+      if (window.pazariApp && window.pazariApp.showToast) {
+        window.pazariApp.showToast(message, type);
+      } else {
+        // Fallback toast
+        const toast = document.createElement('div');
+        toast.className = `alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'info'} position-fixed`;
+        toast.style.cssText = 'top: 20px; right: 20px; z-index: 1050; min-width: 300px;';
+        toast.innerHTML = `
+          <strong>Pazari:</strong> ${message}
+          <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+          if (toast.parentElement) {
+            toast.remove();
+          }
+        }, 5000);
+      }
+    }
+    
+    function updateNavigation() {
+      const loginLink = document.getElementById('loginLink');
+      const settingsLink = document.getElementById('settingsLink');
+      const logoutLink = document.getElementById('logoutLink');
+      
+      if (currentUser && currentUser.isLoggedIn) {
+        if (loginLink) loginLink.classList.add('d-none');
+        if (settingsLink) settingsLink.classList.remove('d-none');
+        if (logoutLink) logoutLink.classList.remove('d-none');
+      } else {
+        if (loginLink) loginLink.classList.remove('d-none');
+        if (settingsLink) settingsLink.classList.add('d-none');
+        if (logoutLink) logoutLink.classList.add('d-none');
+      }
+    }
+    
+    function logout() {
+      if (window.pazariApp && window.pazariApp.logout) {
+        window.pazariApp.logout();
+      } else {
+        localStorage.removeItem('pazariUser');
+        window.location.href = '../index.html';
+      }
+    }
+    
+    // Search input enter key
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        searchProducts();
+      }
+    });
+  </script>
+</body>
+</html>
